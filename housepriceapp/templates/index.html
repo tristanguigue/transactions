@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+<h2>Location</h2>
+<input ng-model="locality">
+
+<h2>History</h2>
+
+<input ng-model="history.month_from">
+<input ng-model="history.year_from">
+
+<input ng-model="history.month_to">
+<input ng-model="history.year_to">
+
+
+<h2>Segmentation</h2>
+
+<input ng-model="segmentation.month">
+<input ng-model="segmentation.year">
+
+<div id="chart_div"></div>
+
+
+{% endblock %}
+

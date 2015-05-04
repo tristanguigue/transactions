@@ -1,0 +1,16 @@
+
+{% load staticfiles %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% load static %}
+<script type="text/javascript" src='{% static 'angular/dist/angular.min.js' %}'></script>
+{% load staticfiles %}
+<script type="text/javascript" src='{% static 'js/app.js' %}'></script>
+
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
