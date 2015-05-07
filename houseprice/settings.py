@@ -38,7 +38,7 @@ WSGI_APPLICATION = 'houseprice.wsgi.application'
 
 # API
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 400,
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
 
