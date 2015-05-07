@@ -33,15 +33,17 @@
               <select ng-options="year for year in years" ng-model="historyFilters.to.year"></select>
             </div>
           </form>
-
-          <div id="history_chart" ng-show="showHistory"></div>
-          <div class="alert" ng-show="!showHistory">
-            <h3>No results</h3>
+          <div style="height:400px">
+            <div ng-show="!loadingHistory">
+              <div id="history_chart" ng-show="showHistory"></div>
+              <div class="alert" ng-show="!showHistory">
+                <h3>No results</h3>
+              </div>
+            </div>
+            <div class="alert" ng-show="loadingHistory">
+              <h3>Loading...</h3>
+            </div>
           </div>
-          <div class="alert" ng-show="loadingHistory">
-            <h3>Loading...</h3>
-          </div>
-        </div>
 
         <hr>
 
@@ -53,15 +55,18 @@
               <select ng-options="month.value as month.label for month in months" ng-model="segmentationFilters.month"></select>
               <select ng-options="year for year in years" ng-model="segmentationFilters.year"></select>
             </div>
-           </form>
-          <div id="segmentation_chart" ng-show="showSegmentation"></div>
-          <div class="alert" ng-show="!showSegmentation">
-            <h3>No results</h3>
+          </form>
+          <div style="height:400px">
+            <div ng-show="!loadingSegmentation">
+              <div id="segmentation_chart" ng-show="showSegmentation"></div>
+              <div class="alert" ng-show="!showSegmentation">
+                <h3>No results</h3>
+              </div>
+            </div>
+            <div class="alert" ng-show="loadingSegmentation">
+              <h3>Loading...</h3>
+            </div>
           </div>
-          <div class="alert" ng-show="loadingSegmentation">
-            <h3>Loading...</h3>
-          </div>
-
         </div>
 
     </div>

@@ -63,7 +63,7 @@ housepriceApp.controller('mainController',
         var options = {
             title: 'Transactions',
             width: 800,
-            height: 600,
+            height: 400,
             interpolateNulls: true     
         };    
         var chart = new google.visualization.LineChart(document.getElementById('history_chart'));
@@ -137,7 +137,7 @@ housepriceApp.controller('mainController',
         var options = {
             title: 'Transactions',
             width: 800,
-            height: 600,            
+            height: 400,            
         };    
         var chart = new google.visualization.BarChart(document.getElementById('segmentation_chart'));
         chart.draw(data, options);        
