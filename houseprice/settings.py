@@ -3,6 +3,8 @@ Django settings for houseprice project.
 """
 SECRET_KEY = 'm0j-_$f+9o(c*hp#$h&u-)$xqq%xz8gyt1ym3#@%8#q8(=8eh)'
 
+DEBUG = False
+
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -71,10 +73,4 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'components'),
-)
-
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
