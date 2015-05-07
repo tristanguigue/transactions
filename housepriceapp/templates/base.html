@@ -1,16 +1,15 @@
 
 {% load staticfiles %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-{% load static %}
-<script type="text/javascript" src='{% static 'angular/dist/angular.min.js' %}'></script>
-{% load staticfiles %}
+<script type="text/javascript" src='{% static 'bower_components/angular/angular.min.js' %}'></script>
 <script type="text/javascript" src='{% static 'js/app.js' %}'></script>
+<script type="text/javascript" src='{% static 'js/services/TransactionService.js' %}'></script>
 
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body>
+<body ng-app="housepriceApp">
     {% block content %}{% endblock %}
 </body>
 </html>

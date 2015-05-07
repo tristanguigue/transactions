@@ -1,0 +1,42 @@
+[
+  {
+    "model": "housepriceapp.Transaction",
+    "pk": 1,
+    "fields": {
+      "price": 1000,
+      "property_type": "S",
+      "locality": "SO40",
+      "date": "2013-01-01"
+    }
+  },
+  {
+    "model": "housepriceapp.Transaction",
+    "pk": 3,
+    "fields": {
+      "price": 2550,
+      "property_type": "F",
+      "locality": "FI2",
+      "date": "2013-04-20"
+    }
+  },
+  {
+    "model": "housepriceapp.Transaction",
+    "pk": 2,
+    "fields": {
+      "price": 2000,
+      "property_type": "F",
+      "locality": "SO40",
+      "date": "2013-02-01"
+    }
+  },
+  {
+    "model": "housepriceapp.Transaction",
+    "pk": 4,
+    "fields": {
+      "price": 4050,
+      "property_type": "S",
+      "locality": "S34",
+      "date": "2014-02-13"
+    }
+  }
+]

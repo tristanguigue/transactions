@@ -3,25 +3,50 @@
 {% block title %}Transactions{% endblock %}
 
 {% block content %}
-<h2>Location</h2>
-<input ng-model="locality">
+{% load bootstrap3 %}
+{% bootstrap_css %}
 
-<h2>History</h2>
+<div class="container">
+    <h1>Transactions</h1>
+    <div ng-controller="mainController"> 
+        <form class="form-inline">
+          <div class="form-group">
+            <label for="locality">Locality</label>
+            <input class="form-control" id="locality" placeholder="Enter locality code" ng-model="locality">
+          </div>
+            <button type="submit" class="btn btn-primary" ng-click="updateCharts()">Search</button>
+        </form>
+        
+        <hr>
 
-<input ng-model="history.month_from">
-<input ng-model="history.year_from">
+        <h2>History</h2>
+        <form class="form-inline">
+          <div class="form-group">
+            <label>From</label>
+            <select ng-options="month.value as month.label for month in months" ng-model="historyFilters.from.month"></select>
+            <select ng-options="year for year in years" ng-model="historyFilters.from.year"></select>
+          </div>
+          <div class="form-group">
+            <label>To</label>
+            <select ng-options="month.value as month.label for month in months" ng-model="historyFilters.to.month"></select>
+            <select ng-options="year for year in years" ng-model="historyFilters.to.year"></select>
+          </div>
+        </form>
 
-<input ng-model="history.month_to">
-<input ng-model="history.year_to">
+        <div id="history_chart"></div>
 
 
-<h2>Segmentation</h2>
-
-<input ng-model="segmentation.month">
-<input ng-model="segmentation.year">
-
-<div id="chart_div"></div>
-
+        <h2>Segmentation</h2>
+        <form class="form-inline">
+          <div class="form-group">
+            <label>Pick Month</label>
+            <select ng-options="month.value as month.label for month in months" ng-model="segmentationFilters.month"></select>
+            <select ng-options="year for year in years" ng-model="segmentationFilters.year"></select>
+          </div>
+         </form>
+        <div id="segmentation_chart"></div>
+    </div>
+</div>
 
 {% endblock %}
 
