@@ -60,7 +60,6 @@ housepriceApp.controller('mainController',
         if(!chartsActive)
             return
 
-        var data = google.visualization.arrayToDataTable(data);
         var options = {
             title: 'Transactions',
             width: 800,
@@ -101,16 +100,21 @@ housepriceApp.controller('mainController',
                     propertyTypeNames.push(propertyTypes[key]);  
                     propertyTypeKeys.push(key);              
                 }
-                var data = [["Month"].concat(propertyTypeNames)]
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Month');
+                for(i in  propertyTypeNames)
+                    data.addColumn('number', propertyTypeNames[i]);                    
+                rows = []
                 for(year in processed){
                     for(month in processed[year]){
                         var priceAverages = processed[year][month]
                         var currentData = [year + "/" + month]
                         for(i in propertyTypeKeys)
                             currentData.push(priceAverages[propertyTypeKeys[i]])
-                        data.push(currentData)
+                        rows.push(currentData)
                     }      
                 }
+                data.addRows(rows)
                 drawHistory(data)
             
             }else{
