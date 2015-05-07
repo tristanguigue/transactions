@@ -11,13 +11,12 @@ var housepriceApp = angular.module('housepriceApp', []);
  */
 housepriceApp.controller('mainController',
   ['$scope', 'TransactionService', function ($scope, TransactionService) {
-
-    google.setOnLoadCallback(drawCharts);
-
     var chartsActive = false
     var drawCharts = function() {
         chartsActive = true
     }
+    google.setOnLoadCallback(drawCharts);
+
 
     $scope.months = [
       {value: 1, label: "January"},
@@ -54,6 +53,9 @@ housepriceApp.controller('mainController',
     }
 
     var drawHistory = function(data){
+        if(!chartsActive)
+            return
+
         var data = google.visualization.arrayToDataTable(data);
         var options = {
             title: 'Transactions',
@@ -118,7 +120,6 @@ housepriceApp.controller('mainController',
     }
 
     var updateSegmentation = function(){
-        console.log("segmentation")
         var BINS = 8
         var filters = {
             date: {

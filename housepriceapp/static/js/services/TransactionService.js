@@ -1,6 +1,7 @@
 housepriceApp.factory('TransactionService', ['$http', function ($http){
 
-    var API_URL = "http://127.0.0.1:8000/api"
+    var API_URL = location.protocol + "//" + location.host + "/api"
+ 
     var PROPERTY_TYPES = {
         'D': 'Detached',
         'S': 'Semi-Detached',
