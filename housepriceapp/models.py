@@ -10,7 +10,7 @@ class Transaction(models.Model):
 
     DATE_FILEDS = ["day", "month", "year"]
 
-    # ref_id = models.CharField(max_length=100)
+    ref_id = models.CharField(max_length=100)
     price = models.IntegerField()
     date = models.DateField()
     property_type = models.CharField(max_length=1, choices=PROPERTY_TYPES)
