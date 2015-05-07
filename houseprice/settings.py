@@ -56,7 +56,8 @@ USE_TZ = True
 # Database
 import dj_database_url
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': dj_database_url.config(
+        default='postgres://tristanguigue@localhost:5432/tristanguigue')
 }
 
 # Allow all host headers
