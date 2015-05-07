@@ -1,1 +1,1 @@
-web: gunicorn houseprice.wsgi --log-file -
+web: python houseprice/manage.py collectstatic --noinput; gunicorn houseprice.wsgi --log-file -
