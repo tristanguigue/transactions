@@ -3,8 +3,6 @@ Django settings for houseprice project.
 """
 SECRET_KEY = 'm0j-_$f+9o(c*hp#$h&u-)$xqq%xz8gyt1ym3#@%8#q8(=8eh)'
 
-DEBUG = True
-
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -58,8 +56,7 @@ USE_TZ = True
 # Database
 import dj_database_url
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres://tristanguigue@localhost:5432/tristanguigue')
+    'default': dj_database_url.config()
 }
 
 # Allow all host headers
