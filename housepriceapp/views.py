@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.db.models import Avg, Max, Min, Count
 from rest_framework import viewsets, generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from .models import Transaction
 from .filters import TransactionFilter
 from .exceptions import GroupByFieldError, NoDataError
@@ -18,9 +21,22 @@ def index(request):
     return render(request, 'index.html', {})
 
 
+@api_view(('GET',))
+def api_root(request, format=None):
+    """
+    REST API root endpoint
+    """
+    return Response({
+        'transactions': reverse(
+            'transactions', request=request, format=format),
+        'transactions-aggregate': reverse(
+            'transactions-aggregate', request=request, format=format)
+    })
+
+
 class TransactionViewSet(viewsets.ModelViewSet):
     """
-    REST API endpoint that allows transactions to be viewed.
+    REST API endpoint that allows transactions to be accessed.
     """
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
@@ -35,7 +51,7 @@ ALLOWED_GROUPS = Transaction._meta.get_all_field_names() \
 
 class TransactionAggregateView(generics.ListAPIView):
     """
-    REST API endpoint that allows transactions aggregates to be viewed.
+    REST API endpoint that allows transactions aggregates to be accessed.
     This includes average, min, max and count group by given parameters
     """
 
