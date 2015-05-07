@@ -60,7 +60,8 @@ housepriceApp.controller('mainController',
         var options = {
             title: 'Transactions',
             width: 800,
-            height: 600,        
+            height: 600,
+            interpolateNulls: true     
         };    
         var chart = new google.visualization.LineChart(document.getElementById('history_chart'));
         chart.draw(data, options);
