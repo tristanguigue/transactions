@@ -52,6 +52,8 @@ housepriceApp.controller('mainController',
         year: 2013            
     }
 
+    $scope.locality = 'SO40'
+
     var drawHistory = function(data){
         if(!chartsActive)
             return
@@ -164,12 +166,20 @@ housepriceApp.controller('mainController',
     }
 
     $scope.$watch('historyFilters', function(newValue, oldValue){
-        if(newValue != oldValue)
-            updateHistory()
+        // Making sure that we have a valid date range
+        var from = $scope.historyFilters.from
+        var to =  $scope.historyFilters.to
+
+        if(from.year > to.year)
+            to.year = from.year
+
+        if (from.year == to.year && from.month > to.month)
+            to.month = from .month
+
+        updateHistory()            
     }, true) 
 
     $scope.$watch('segmentationFilters', function(newValue, oldValue){
-        if(newValue != oldValue)
-            updateSegmentation()
+        updateSegmentation()
     }, true) 
 }]);

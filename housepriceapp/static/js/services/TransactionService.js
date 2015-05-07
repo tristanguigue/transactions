@@ -11,7 +11,17 @@ housepriceApp.factory('TransactionService', ['$http', function ($http){
 
     var makeFilters = function(filters){
         var from = filters.date.from.year + "-" + filters.date.from.month + "-01"
-        var to = filters.date.to.year + "-" + (filters.date.to.month + 1) + "-01"
+        // We extend the date range to the next month
+        if(filters.date.to.month < 12){
+            month_to = filters.date.to.month + 1
+            year_to = filters.date.to.year
+        }
+        else{
+            month_to = 1
+            year_to = filters.date.to.year + 1            
+        }
+
+        var to = year_to + "-" + month_to + "-01"
         var date_query_params = "date_from=" + from + "&date_to=" + to
         var locality_query_params = "locality=" + filters.locality
 
