@@ -65,7 +65,7 @@ housepriceApp.controller('mainController',
         var options = {
             title: 'Average Price of Transactions (k£)',
             width: 800,
-            height: 400,
+            height: 450,
             interpolateNulls: true     
         };    
         var chart = new google.visualization.LineChart(document.getElementById('history_chart'));
@@ -103,14 +103,14 @@ housepriceApp.controller('mainController',
                     propertyTypeKeys.push(key);              
                 }
                 var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Month');
+                data.addColumn('date', 'Date');
                 for(i in  propertyTypeNames)
                     data.addColumn('number', propertyTypeNames[i]);                    
                 rows = []
                 for(year in processed){
                     for(month in processed[year]){
                         var priceAverages = processed[year][month]
-                        var currentData = [year + "/" + month]
+                        var currentData = [new Date(year, month, 1)]
                         for(i in propertyTypeKeys)
                             currentData.push(priceAverages[propertyTypeKeys[i]])
                         rows.push(currentData)
@@ -139,7 +139,7 @@ housepriceApp.controller('mainController',
         var options = {
             title: 'Transactions by Price Range (k£)',
             width: 800,
-            height: 400,
+            height: 450,
             legend: {position: 'none'},       
         };    
         var chart = new google.visualization.BarChart(document.getElementById('segmentation_chart'));
