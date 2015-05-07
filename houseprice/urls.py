@@ -1,5 +1,6 @@
-from django.conf.urls import url
+from django.conf.urls import url, patterns
 from housepriceapp import views
+from django.conf import settings
 
 # Wire up our API using automatic URL routing.
 urlpatterns = [
@@ -13,3 +14,9 @@ urlpatterns = [
         name='transactions-aggregate')
 
 ]
+
+if not settings.DEBUG:
+    urlpatterns += patterns('',
+                            (r'^static/(?P<path>.*)$',
+                             'django.views.static.serve',
+                             {'document_root': settings.STATIC_ROOT}))
