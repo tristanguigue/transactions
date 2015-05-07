@@ -35,8 +35,11 @@
           </form>
 
           <div id="history_chart" ng-show="showHistory"></div>
-          <div class="alert">
-            <h3 ng-show="!showHistory">No results</h3>
+          <div class="alert" ng-show="!showHistory">
+            <h3>No results</h3>
+          </div>
+          <div class="alert" ng-show="loadingHistory">
+            <h3>Loading...</h3>
           </div>
         </div>
 
@@ -52,9 +55,13 @@
             </div>
            </form>
           <div id="segmentation_chart" ng-show="showSegmentation"></div>
-          <div class="alert">
-            <h3 ng-show="!showSegmentation">No results</h3>
+          <div class="alert" ng-show="!showSegmentation">
+            <h3>No results</h3>
           </div>
+          <div class="alert" ng-show="loadingSegmentation">
+            <h3>Loading...</h3>
+          </div>
+
         </div>
 
     </div>

@@ -72,6 +72,7 @@ housepriceApp.controller('mainController',
     }
 
     var updateHistory = function(){
+        $scope.loadingHistory = true
         var filters = {
             date: $scope.historyFilters,
             locality: $scope.locality
@@ -115,7 +116,13 @@ housepriceApp.controller('mainController',
             }else{
                 $scope.showHistory = false
             }
-        });    
+            $scope.loadingHistory = false
+            
+        }).error(function(results){
+            $scope.loadingHistory = false
+            $scope.showHistory = false
+            alert("An error occured")
+        });
     }
 
     var drawSegmentation = function(data){
@@ -133,6 +140,7 @@ housepriceApp.controller('mainController',
     }
 
     var updateSegmentation = function(){
+        $scope.loadingSegmentation = true
         var BINS = 8
         var filters = {
             date: {
@@ -170,7 +178,12 @@ housepriceApp.controller('mainController',
             }else{
                 $scope.showSegmentation = false
             }
+            $scope.loadingSegmentation = false
 
+        }).error(function(results){
+            $scope.loadingSegmentation = false
+            $scope.showSegmentation = false
+            alert("An error occured")
         });
     }
 
