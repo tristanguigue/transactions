@@ -34,13 +34,13 @@ housepriceApp.controller('mainController',
     ];
 
     $scope.years = []
-    for(var i = 2013; i <= 2015; ++i)
+    for(var i = 2010; i <= 2015; ++i)
         $scope.years.push(i)
 
     $scope.historyFilters = {
         from: {
             month : 1,
-            year: 2013            
+            year: 2010            
         },
         to: {
             month : 5,
