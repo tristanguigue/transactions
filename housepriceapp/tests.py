@@ -9,21 +9,18 @@ class TransactionTests(APITestCase):
         pass
 
     def test_get_transactions(self):
-
         response = self.client.get('/api/transactions/', {})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 4)
 
     def test_get_transactions_filters(self):
-
         response = self.client.get('/api/transactions/', {'locality': 'SO40'})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["count"], 2)
 
     def test_get_transactions_filters_date(self):
-
         response = self.client.get('/api/transactions/',
                                    {'date_from': '2013-04-01'})
 
@@ -31,7 +28,6 @@ class TransactionTests(APITestCase):
         self.assertEqual(response.data["count"], 2)
 
     def test_get_transactions_aggregate(self):
-
         response = self.client.get('/api/transactions/aggregate/', {})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -39,7 +35,6 @@ class TransactionTests(APITestCase):
         self.assertIn('price_avg', response.data["results"][0])
 
     def test_get_transactions_aggregate_groupby(self):
-
         response = self.client.get('/api/transactions/aggregate/',
                                    {'groupby': 'month'})
 

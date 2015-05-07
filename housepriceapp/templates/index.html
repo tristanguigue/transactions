@@ -10,65 +10,64 @@
     <h1>Transactions</h1>
     <div ng-controller="mainController"> 
         <form class="form-inline">
-          <div class="form-group">
-            <label for="locality">Locality</label>
-            <input class="form-control" id="locality" placeholder="Enter locality code" ng-model="locality">
-          </div>
+            <div class="form-group">
+                <label for="locality">Locality</label>
+                <input class="form-control" id="locality" placeholder="Enter locality code" ng-model="locality">
+            </div>
             <button type="submit" class="btn btn-primary" ng-click="updateCharts()">Search</button>
         </form>
         
         <hr>
 
         <div>
-          <h2>History</h2>
-          <form class="form-inline">
-            <div class="form-group">
-              <label>From</label>
-              <select ng-options="month.value as month.label for month in months" ng-model="historyFilters.from.month"></select>
-              <select ng-options="year for year in years" ng-model="historyFilters.from.year"></select>
-            </div>
-            <div class="form-group">
-              <label>To</label>
-              <select ng-options="month.value as month.label for month in months" ng-model="historyFilters.to.month"></select>
-              <select ng-options="year for year in years" ng-model="historyFilters.to.year"></select>
-            </div>
-          </form>
-          <div style="height:450px">
-            <div ng-show="!loadingHistory">
-              <div id="history_chart" ng-show="showHistory"></div>
-              <div class="alert" ng-show="!showHistory">
-                <h3>No results</h3>
-              </div>
-            </div>
-            <div class="alert" ng-show="loadingHistory">
-              <h3>Loading...</h3>
-            </div>
+            <h2>History</h2>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>From</label>
+                    <select ng-options="month.value as month.label for month in months" ng-model="historyFilters.from.month"></select>
+                    <select ng-options="year for year in years" ng-model="historyFilters.from.year"></select>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <select ng-options="month.value as month.label for month in months" ng-model="historyFilters.to.month"></select>
+                  <select ng-options="year for year in years" ng-model="historyFilters.to.year"></select>
+                </div>
+            </form>
+            <div style="height:450px">
+                <div ng-show="!loadingHistory">
+                    <div id="history_chart" ng-show="showHistory"></div>
+                    <div class="alert" ng-show="!showHistory">
+                        <h3>No results</h3>
+                    </div>
+                </div>
+                <div class="alert" ng-show="loadingHistory">
+                    <h3>Loading...</h3>
+                </div>
           </div>
 
         <hr>
 
         <div>
-          <h2>Segmentation</h2>
-          <form class="form-inline">
-            <div class="form-group">
-              <label>Pick Month</label>
-              <select ng-options="month.value as month.label for month in months" ng-model="segmentationFilters.month"></select>
-              <select ng-options="year for year in years" ng-model="segmentationFilters.year"></select>
+            <h2>Segmentation</h2>
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Select Month</label>
+                    <select ng-options="month.value as month.label for month in months" ng-model="segmentationFilters.month"></select>
+                    <select ng-options="year for year in years" ng-model="segmentationFilters.year"></select>
+                </div>
+            </form>
+            <div style="height:450px">
+                <div ng-show="!loadingSegmentation">
+                    <div id="segmentation_chart" ng-show="showSegmentation"></div>
+                    <div class="alert" ng-show="!showSegmentation">
+                        <h3>No results</h3>
+                    </div>
+                </div>
+                <div class="alert" ng-show="loadingSegmentation">
+                    <h3>Loading...</h3>
+                </div>
             </div>
-          </form>
-          <div style="height:450px">
-            <div ng-show="!loadingSegmentation">
-              <div id="segmentation_chart" ng-show="showSegmentation"></div>
-              <div class="alert" ng-show="!showSegmentation">
-                <h3>No results</h3>
-              </div>
-            </div>
-            <div class="alert" ng-show="loadingSegmentation">
-              <h3>Loading...</h3>
-            </div>
-          </div>
         </div>
-
     </div>
 </div>
 

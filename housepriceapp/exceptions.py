@@ -12,8 +12,8 @@ class GroupByFieldError(exceptions.APIException):
 
 class NoDataError(exceptions.APIException):
     """
-    This exception is raise when an attempt is made to group by bins but 
-    there are no data available
+    This exception is raise when an attempt is made to group by bins but
+    there are is no data available
     """
     status_code = 204
     default_detail = 'No data to perform group by bin'

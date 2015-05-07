@@ -11,15 +11,17 @@ var housepriceApp = angular.module('housepriceApp', []);
  */
 housepriceApp.controller('mainController',
   ['$scope', 'TransactionService', function ($scope, TransactionService) {
-    var DIVISOR = 1000
+    // For readability we will divide all prices by 1000
+    var PRICE_DIVISOR = 1000
 
+    // We will allow charts to be drawn once google charts is loaded
     var chartsActive = false
     var drawCharts = function() {
         chartsActive = true
     }
     google.setOnLoadCallback(drawCharts);
 
-
+    // Month and year dropdowns
     $scope.months = [
       {value: 1, label: "January"},
       {value: 2, label: "February"},
@@ -39,6 +41,7 @@ housepriceApp.controller('mainController',
     for(var i = 2010; i <= 2015; ++i)
         $scope.years.push(i)
 
+    // We prefilled the data
     $scope.historyFilters = {
         from: {
             month : 1,
@@ -58,6 +61,10 @@ housepriceApp.controller('mainController',
     $scope.showHistory = true
     $scope.showSegmentation = true
 
+    /**
+     * Draw the history chart.
+     * @param {object} data The data to feed the chart
+     */
     var drawHistory = function(data){
         if(!chartsActive)
             return
@@ -67,24 +74,34 @@ housepriceApp.controller('mainController',
             width: 800,
             height: 450,
             interpolateNulls: true     
-        };    
+        }; 
+
         var chart = new google.visualization.LineChart(document.getElementById('history_chart'));
         chart.draw(data, options);
     }
 
+    /**
+     * Update the history chart.
+     */
     var updateHistory = function(){
         $scope.loadingHistory = true
+
         var filters = {
             date: $scope.historyFilters,
             locality: $scope.locality
         }
 
-        TransactionService.getHistory(filters).success(function(results){
+        // We call the transaction service to retrieve the aggregate data
+        TransactionService.getAggregates(
+                filters, ["year", "month", "property_type"], [])
+                .success(function(results){
+
             var raw = results.results
 
             if(raw && raw.length){
                 $scope.showHistory = true
             
+                // We need to process the data in a year/month array
                 var processed = {}
                 for(i in raw){
                     var year = raw[i].year
@@ -93,15 +110,20 @@ housepriceApp.controller('mainController',
                         processed[year] = {}
                     if (!(month in processed[year]))
                         processed[year][month] = {}
-                    processed[year][month][raw[i].property_type] = raw[i].price_avg / DIVISOR
+                    processed[year][month][raw[i].property_type] = 
+                        raw[i].price_avg / PRICE_DIVISOR
                 }
+
                 var propertyTypes = TransactionService.getPropertyType();
                 var propertyTypeNames = [];
                 var propertyTypeKeys = [];
+
                 for(var key in propertyTypes){
                     propertyTypeNames.push(propertyTypes[key]);  
                     propertyTypeKeys.push(key);              
                 }
+
+                // Building the data object for the chart
                 var data = new google.visualization.DataTable();
                 data.addColumn('date', 'Date');
                 for(i in  propertyTypeNames)
@@ -122,15 +144,20 @@ housepriceApp.controller('mainController',
             }else{
                 $scope.showHistory = false
             }
+
             $scope.loadingHistory = false
 
         }).error(function(results){
             $scope.loadingHistory = false
             $scope.showHistory = false
-            alert("An error occured")
+
+            alert("An unexpected error occured")
         });
     }
 
+    /**
+     * Draw the segmentation chart
+     */
     var drawSegmentation = function(data){
         if(!chartsActive)
             return
@@ -141,13 +168,21 @@ housepriceApp.controller('mainController',
             width: 800,
             height: 450,
             legend: {position: 'none'},       
-        };    
-        var chart = new google.visualization.BarChart(document.getElementById('segmentation_chart'));
+        };
+
+        var chart = new google.visualization.BarChart(
+            document.getElementById('segmentation_chart'));
+
         chart.draw(data, options);        
     }
 
+    /**
+     * Update the segmentation chart
+     */
     var updateSegmentation = function(){
         $scope.loadingSegmentation = true
+
+        // We want to split the prices into 8 price range
         var BINS = 8
         var filters = {
             date: {
@@ -156,7 +191,8 @@ housepriceApp.controller('mainController',
             },
             locality: $scope.locality
         }
-        TransactionService.getSegmentation(filters, BINS)
+
+        TransactionService.getAggregates(filters, ["price_bin"], [BINS])
                 .success(function(results){
             var data = [['Price Range', 'Number of transactions']]
             var raw = results.results
@@ -168,10 +204,14 @@ housepriceApp.controller('mainController',
                 max_price = raw[raw.length - 1].price_max
                 interval = (min_price + max_price) / BINS
 
+                // For each bin add the number of transaction or 0 if we 
+                // don't have any
                 var i = 0
                 for(bin_index = 1; bin_index <= BINS; ++bin_index){
-                    var low = Math.round((min_price + (bin_index - 1)* interval) / DIVISOR)
-                    var high = Math.round((min_price + bin_index * interval) / DIVISOR)
+                    var low = Math.round(
+                        (min_price + (bin_index - 1) * interval) / PRICE_DIVISOR)
+                    var high = Math.round(
+                        (min_price + bin_index * interval) / PRICE_DIVISOR)
 
                     if(raw[i].price_bin == bin_index){
                         data.push([low + " - " + high, raw[i].count])
@@ -190,16 +230,21 @@ housepriceApp.controller('mainController',
         }).error(function(results){
             $scope.loadingSegmentation = false
             $scope.showSegmentation = false
-            alert("An error occured")
+            alert("An unexpected error occured")
         });
     }
 
-
+    /**
+     * Update both charts
+     */
     $scope.updateCharts = function(){
         updateHistory()
         updateSegmentation()
     }
 
+    /**
+     * Whenever the filters changes, we update the relevant chart
+     */
     $scope.$watch('historyFilters', function(newValue, oldValue){
         // Making sure that we have a valid date range
         var from = $scope.historyFilters.from
