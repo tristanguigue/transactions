@@ -81,7 +81,7 @@ housepriceApp.controller('mainController',
         TransactionService.getHistory(filters).success(function(results){
             var raw = results.results
 
-            if(raw.length){
+            if(raw && raw.length){
                 $scope.showHistory = true
             
                 var processed = {}
@@ -117,7 +117,7 @@ housepriceApp.controller('mainController',
                 $scope.showHistory = false
             }
             $scope.loadingHistory = false
-            
+
         }).error(function(results){
             $scope.loadingHistory = false
             $scope.showHistory = false
@@ -154,7 +154,7 @@ housepriceApp.controller('mainController',
             var data = [['Price Bin', 'Number of transactions']]
             var raw = results.results
 
-            if(raw.length){
+            if(raw && raw.length){
                 $scope.showSegmentation = true
 
                 min_price = raw[0].price_min

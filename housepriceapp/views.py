@@ -3,7 +3,7 @@ from django.db.models import Avg, Max, Min, Count
 from rest_framework import viewsets, generics
 from .models import Transaction
 from .filters import TransactionFilter
-from .exceptions import GroupByFieldError
+from .exceptions import GroupByFieldError, NoDataError
 from .serializers import TransactionSerializer, TransactionAggregateSerializer
 import re
 
@@ -100,7 +100,8 @@ class TransactionAggregateView(generics.ListAPIView):
                     max_field = f.qs.aggregate(Max(field)) \
                         .get(field + '__max')
 
-                    print min_field, max_field
+                    if not min_field or not max_field:
+                        raise NoDataError
 
                     # get the bin for a range between min and max excluded
                     extras[groupby_field] = "width_bucket(" + field + ", " \

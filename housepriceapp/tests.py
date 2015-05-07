@@ -77,3 +77,10 @@ class TransactionTests(APITestCase):
         response = self.client.get('/api/transactions/aggregate/',
                                    {'groupby': 'blabla'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_transactions_aggregate_no_content(self):
+        response = self.client.get('/api/transactions/aggregate/',
+                                   {'groupby': 'price_bin',
+                                    'bins': 2,
+                                    'date_from': '2015-06-01'})
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
