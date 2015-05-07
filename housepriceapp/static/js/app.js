@@ -11,6 +11,8 @@ var housepriceApp = angular.module('housepriceApp', []);
  */
 housepriceApp.controller('mainController',
   ['$scope', 'TransactionService', function ($scope, TransactionService) {
+    var DIVISOR = 1000
+
     var chartsActive = false
     var drawCharts = function() {
         chartsActive = true
@@ -61,7 +63,7 @@ housepriceApp.controller('mainController',
             return
 
         var options = {
-            title: 'Transactions',
+            title: 'Average Price of Transactions (k£)',
             width: 800,
             height: 400,
             interpolateNulls: true     
@@ -91,7 +93,7 @@ housepriceApp.controller('mainController',
                         processed[year] = {}
                     if (!(month in processed[year]))
                         processed[year][month] = {}
-                    processed[year][month][raw[i].property_type] = raw[i].price_avg
+                    processed[year][month][raw[i].property_type] = raw[i].price_avg / DIVISOR
                 }
                 var propertyTypes = TransactionService.getPropertyType();
                 var propertyTypeNames = [];
@@ -135,9 +137,10 @@ housepriceApp.controller('mainController',
 
         var data = google.visualization.arrayToDataTable(data);
         var options = {
-            title: 'Transactions',
+            title: 'Transactions by Price Range (k£)',
             width: 800,
-            height: 400,            
+            height: 400,
+            legend: {position: 'none'},       
         };    
         var chart = new google.visualization.BarChart(document.getElementById('segmentation_chart'));
         chart.draw(data, options);        
@@ -155,7 +158,7 @@ housepriceApp.controller('mainController',
         }
         TransactionService.getSegmentation(filters, BINS)
                 .success(function(results){
-            var data = [['Price Bin', 'Number of transactions']]
+            var data = [['Price Range', 'Number of transactions']]
             var raw = results.results
 
             if(raw && raw.length){
@@ -167,8 +170,8 @@ housepriceApp.controller('mainController',
 
                 var i = 0
                 for(bin_index = 1; bin_index <= BINS; ++bin_index){
-                    var low = min_price + (bin_index - 1)* interval
-                    var high = min_price + bin_index * interval
+                    var low = Math.round((min_price + (bin_index - 1)* interval) / DIVISOR)
+                    var high = Math.round((min_price + bin_index * interval) / DIVISOR)
 
                     if(raw[i].price_bin == bin_index){
                         data.push([low + " - " + high, raw[i].count])
