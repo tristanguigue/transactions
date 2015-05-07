@@ -53,6 +53,8 @@ housepriceApp.controller('mainController',
     }
 
     $scope.locality = 'SO40'
+    $scope.showHistory = true
+    $scope.showSegmentation = true
 
     var drawHistory = function(data){
         if(!chartsActive)
@@ -77,34 +79,42 @@ housepriceApp.controller('mainController',
 
         TransactionService.getHistory(filters).success(function(results){
             var raw = results.results
-            var processed = {}
-            for(i in raw){
-                var year = raw[i].year
-                var month = raw[i].month
-                if (!(year in processed))
-                    processed[year] = {}
-                if (!(month in processed[year]))
-                    processed[year][month] = {}
-                processed[year][month][raw[i].property_type] = raw[i].price_avg
+
+            if(raw.length){
+                $scope.showHistory = true
+            
+                var processed = {}
+                for(i in raw){
+                    var year = raw[i].year
+                    var month = raw[i].month
+                    if (!(year in processed))
+                        processed[year] = {}
+                    if (!(month in processed[year]))
+                        processed[year][month] = {}
+                    processed[year][month][raw[i].property_type] = raw[i].price_avg
+                }
+                var propertyTypes = TransactionService.getPropertyType();
+                var propertyTypeNames = [];
+                var propertyTypeKeys = [];
+                for(var key in propertyTypes){
+                    propertyTypeNames.push(propertyTypes[key]);  
+                    propertyTypeKeys.push(key);              
+                }
+                var data = [["Month"].concat(propertyTypeNames)]
+                for(year in processed){
+                    for(month in processed[year]){
+                        var priceAverages = processed[year][month]
+                        var currentData = [year + "/" + month]
+                        for(i in propertyTypeKeys)
+                            currentData.push(priceAverages[propertyTypeKeys[i]])
+                        data.push(currentData)
+                    }      
+                }
+                drawHistory(data)
+            
+            }else{
+                $scope.showHistory = false
             }
-            var propertyTypes = TransactionService.getPropertyType();
-            var propertyTypeNames = [];
-            var propertyTypeKeys = [];
-            for(var key in propertyTypes){
-                propertyTypeNames.push(propertyTypes[key]);  
-                propertyTypeKeys.push(key);              
-            }
-            var data = [["Month"].concat(propertyTypeNames)]
-            for(year in processed){
-                for(month in processed[year]){
-                    var priceAverages = processed[year][month]
-                    var currentData = [year + "/" + month]
-                    for(i in propertyTypeKeys)
-                        currentData.push(priceAverages[propertyTypeKeys[i]])
-                    data.push(currentData)
-                }      
-            }
-            drawHistory(data)
         });    
     }
 
@@ -137,6 +147,8 @@ housepriceApp.controller('mainController',
             var raw = results.results
 
             if(raw.length){
+                $scope.showSegmentation = true
+
                 min_price = raw[0].price_min
                 max_price = raw[raw.length - 1].price_max
                 interval = (min_price + max_price) / BINS
@@ -154,8 +166,11 @@ housepriceApp.controller('mainController',
                     }
 
                 }
+                drawSegmentation(data)
+            }else{
+                $scope.showSegmentation = false
             }
-            drawSegmentation(data)
+
         });
     }
 
