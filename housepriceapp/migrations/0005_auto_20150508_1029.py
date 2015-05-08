@@ -34,20 +34,21 @@ class Migration(migrations.Migration):
                            ADD COLUMN drop9 character varying,\
                            ADD COLUMN drop10 character varying;"),
 
-        # migrations.RunSQL(
-        #    import_csv_sql('//Users/tristanguigue/Desktop/pp-2010.csv')),
-        # migrations.RunSQL(
-        #    import_csv_sql('//Users/tristanguigue/Desktop/pp-2011.csv')),
-        # migrations.RunSQL(
-        #    import_csv_sql('//Users/tristanguigue/Desktop/pp-2012.csv')),
-        # migrations.RunSQL(
-        #    import_csv_sql('//Users/tristanguigue/Desktop/pp-2013.csv')),
-        # migrations.RunSQL(
-        #    import_csv_sql('//Users/tristanguigue/Desktop/pp-2014.csv')),
         migrations.RunSQL(
-            import_csv_sql('//Users/tristanguigue/Desktop/pp-2015.csv')),
+            import_csv_sql('/tmp/pp-2010.csv')),
+        migrations.RunSQL(
+            import_csv_sql('/tmp/pp-2011.csv')),
+        migrations.RunSQL(
+            import_csv_sql('/tmp/pp-2012.csv')),
+        migrations.RunSQL(
+            import_csv_sql('/tmp/pp-2013.csv')),
+        migrations.RunSQL(
+            import_csv_sql('/tmp/pp-2014.csv')),
+        migrations.RunSQL(
+            import_csv_sql('/tmp/pp-2015.csv')),
 
-        migrations.RunSQL("UPDATE housepriceapp_transaction SET locality = (regexp_split_to_array(locality, E'\\\\s+'))[1];"),
+        migrations.RunSQL("UPDATE housepriceapp_transaction\
+                           SET locality = (regexp_split_to_array(locality, E'\\\\s+'))[1];"),
 
         migrations.RunSQL("ALTER TABLE housepriceapp_transaction\
                            DROP COLUMN drop1,\
