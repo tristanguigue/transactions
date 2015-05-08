@@ -10,7 +10,10 @@ class Transaction(models.Model):
 
     DATE_FILEDS = ["day", "month", "year"]
 
-    price = models.IntegerField()
-    date = models.DateField()
-    property_type = models.CharField(max_length=1, choices=PROPERTY_TYPES)
-    locality = models.CharField(max_length=10)
+    ref_id = models.CharField(max_length=100)
+    price = models.IntegerField(db_index=True)
+    date = models.DateField(db_index=True)
+    property_type = models.CharField(max_length=1,
+                                     choices=PROPERTY_TYPES,
+                                     db_index=True)
+    locality = models.CharField(max_length=10, db_index=True)
